@@ -1,26 +1,40 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { DsaContext } from "../context/DsaContext";
 
 const AddQuestion = () => {
   const { addQuestion } = useContext(DsaContext);
   const [question, setQuestion] = useState("");
-  const [topic, setTopic] = useState("");
+  const [topics, setTopics] = useState([]);
+  const [selectedTopic, setSelectedTopic] = useState("");
   const [status, setStatus] = useState("");
+
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/topics");
+        setTopics(response.data);
+      } catch (error) {
+        console.error("Error fetching topics:", error);
+      }
+    };
+
+    fetchTopics();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!question || !topic || !status) return;
+    if (!question || !selectedTopic || !status) return;
 
     try {
-      const response = await axios.post("http://localhost:5000/questions/addquestion", {
+      const response = await axios.post("http://localhost:5000/addquestion", {
         question,
-        topic,
+        topic: selectedTopic,
         status,
       });
       addQuestion(response.data);
       setQuestion("");
-      setTopic("");
+      setSelectedTopic("");
       setStatus("");
     } catch (error) {
       console.error("Error adding question:", error);
@@ -56,15 +70,15 @@ const AddQuestion = () => {
             <select
               id="topic"
               className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
+              value={selectedTopic}
+              onChange={(e) => setSelectedTopic(e.target.value)}
             >
               <option value="">Select Topic</option>
-              <option value="array">Array</option>
-              <option value="stack">Stack</option>
-              <option value="linkedlist">Linked List</option>
-              <option value="queue">Queue</option>
-              <option value="DP">Dynamic Programming</option>
+              {topics.map((topic) => (
+                <option key={topic._id} value={topic.value}>
+                  {topic.label}
+                </option>
+              ))}
             </select>
           </div>
           <div className="mb-4">

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const questionRoutes = require('./routes/questionRoutes');
+const topicRoutes = require('./routes/topicRoutes');
 const cors = require("cors");
 
 const app = express();
@@ -19,7 +20,8 @@ mongoose.connect('mongodb+srv://bakkeshpruthvi49:9844@cluster0.it4pita.mongodb.n
 .catch(err => console.error(err));
 
 // Routes
-app.use('/questions', questionRoutes);
+app.use('/', questionRoutes);
+app.use('/', topicRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
