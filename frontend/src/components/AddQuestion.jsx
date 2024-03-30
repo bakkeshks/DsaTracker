@@ -26,12 +26,19 @@ const AddQuestion = () => {
     e.preventDefault();
     if (!question || !selectedTopic || !status) return;
 
+    const authToken = localStorage.getItem('token');
+
     try {
       const response = await axios.post("http://localhost:5000/addquestion", {
         question,
         topic: selectedTopic,
         status,
-      });
+      },{
+        headers: {
+          Authorization: `${authToken}`,
+        },
+      }
+      );
       addQuestion(response.data);
       setQuestion("");
       setSelectedTopic("");

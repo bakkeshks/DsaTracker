@@ -14,7 +14,12 @@ const Home = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/viewquestion');
+        const authToken = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:5000/viewquestion',{
+        headers: {
+          Authorization: `${authToken}` // Include the token in the request headers
+        }
+      });
         setQuestions(response.data); // Assuming your backend returns an array of questions
       } catch (error) {
         console.error('Error fetching questions:', error);

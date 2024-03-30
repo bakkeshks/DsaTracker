@@ -1,13 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { DsaProvider } from "./context/DsaContext";
+import { AuthProvider } from "./context/AuthContext";
+
 import Header from "./components/Header";
 
 const App = () => {
   return (
     <Router>
       <DsaProvider>
-        <Header />
+        <AuthProvider>
+          <Header />
+        </AuthProvider>
       </DsaProvider>
     </Router>
   );

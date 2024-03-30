@@ -5,6 +5,8 @@ import Nav from "./Nav";
 import Home from "./Home";
 import ViewQuestion from "./ViewQuestion";
 import AddQuestion from "./AddQuestion";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 const Header = () => {
   return (
     <>
@@ -13,7 +15,9 @@ const Header = () => {
       <Routes>
         <Route path="/addquestion" element={<AddQuestion />} />
         <Route path="/" element={<Home />} />
-        <Route path="viewquestion" element={<ViewQuestion />} />
+        <Route path="/viewquestion" element={<ViewQuestion />} />
+        <Route path="/signup" element={<SignUp/>} />
+        <Route path="/signin" element={<SignIn/>} />
       </Routes>
     </>
   );

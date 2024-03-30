@@ -9,7 +9,12 @@ const ViewQuestion = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/viewquestion");
+        const authToken = localStorage.getItem('token');
+        const response = await axios.get("http://localhost:5000/viewquestion",{
+          headers: {
+            Authorization: `${authToken}` // Include the token in the request headers
+          }
+        });
         setFetchedQuestions(response.data);
       } catch (error) {
         console.error("Error fetching questions:", error);
@@ -21,7 +26,12 @@ const ViewQuestion = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/deletequestion/${id}`);
+      const authToken = localStorage.getItem('token');
+      await axios.delete(`http://localhost:5000/deletequestion/${id}`, {
+        headers: {
+          Authorization: `${authToken}` // Include the token in the request headers
+        }
+      });
       // Update the questions state to reflect the deletion
       const updatedQuestions = fetchedQuestions.filter(
         (question) => question._id !== id

@@ -13,6 +13,11 @@ const questionSchema = new mongoose.Schema({
     type: String,
     enum: ['not started', 'completed', 'revised'],
     required: true
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   }
 });
 
